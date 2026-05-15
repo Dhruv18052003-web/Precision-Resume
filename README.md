@@ -1,61 +1,129 @@
-# Smart AI Logbook: Multi-Agent Expense Tracker 📊🤖
+# Precision Resume
 
-A chat-based personal finance and expense tracking system powered by a **Multi-Agentic Architecture**. This project abstracts away the complexity of traditional accounting databases by allowing users to log, categorize, and query their financial data using pure natural language.
+An AI-powered ATS resume optimization tool that refines your resume to match specific job descriptions, maximizing your chances of passing Applicant Tracking Systems.
 
-## 🧠 Architecture & Multi-Agent Design
-Instead of relying on a single prompt, this system decomposes complex financial tasks into specialized agents:
-* **Parsing Agent:** Extracts numerical values, dates, and vendors from unstructured conversational input.
-* **Categorization Agent:** Uses LLM-based zero-shot classification to accurately assign expenses to logical buckets (e.g., "Food", "Transport", "Utilities") with high accuracy.
-* **Database Routing Agent:** Formats the structured JSON payload and executes the database insertion without manual data entry.
+## Features
 
-## 🛠️ Tech Stack
-* **Language:** Python
-* **AI/LLM Orchestration:** [Insert LangChain, OpenAI, or specific framework used]
-* **Database:** [Insert SQLite, PostgreSQL, or vector DB if used]
-* **UI/Interface:** [Insert Streamlit, Flask template, or CLI if applicable]
+- **PDF Resume Upload** — Drag-and-drop or click-to-upload with client-side text extraction
+- **Job-Specific Optimization** — Tailors your resume to a target job title, description, company, and experience level
+- **AI-Powered Refinement** — Uses Groq LLM to rewrite your resume with ATS-friendly formatting, keyword alignment, and professional structure
+- **Live Preview** — Instantly preview the refined resume rendered as Markdown
+- **Export Options** — Download the optimized resume as PDF or DOCX
 
-## 🚀 Quick Start
+## Tech Stack
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/Dhruv18052003-web/spend-sense-AI-logbook.git](https://github.com/Dhruv18052003-web/spend-sense-AI-logbook.git)
-   cd spend-sense-AI-logbook
+### Frontend
+- Next.js 14 (React 18)
+- Tailwind CSS
+- pdfjs-dist — client-side PDF text extraction
+- react-markdown — rendered preview of refined output
+
+### Backend
+- Python / Flask
+- Groq API (LLaMA LLM)
+- ReportLab — PDF generation
+- python-docx — DOCX generation
+
+## Project Structure
 
 ```
+Precision-Resume/
+├── front-end/
+│   └── app/
+│       ├── page.jsx          # Main UI (input form + output preview)
+│       ├── layout.jsx
+│       └── globals.css
+├── backend/
+│   ├── app.py                # Flask application factory
+│   └── src/
+│       ├── controllers/
+│       │   ├── refine_controller.py    # POST /api/refine-resume
+│       │   └── download_controller.py  # POST /api/download-pdf, /api/download-docx
+│       ├── services/
+│       │   ├── groq_service.py         # LLM prompt engineering & API call
+│       │   ├── pdf_service.py
+│       │   └── docx_service.py
+│       └── utils/
+│           ├── resume_cleaner.py       # Text normalization
+│           └── response_builder.py     # Standardized JSON responses
+```
 
-2. **Set up virtual environment:**
+## Getting Started
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+
+- A [Groq API key](https://console.groq.com/)
+
+### Backend Setup
+
 ```bash
+cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install flask flask-cors groq reportlab python-docx markdown
 ```
 
+Create `backend/instance/config.py`:
 
-3. **Install dependencies:**
-```bash
-pip install -r requirements.txt
+```python
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+class Config:
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    GROQ_MODEL = os.getenv("GROQ_MODEL", "llama3-70b-8192")
 ```
 
+Create a `.env` file in the `backend/` directory:
 
-4. **Environment Variables:**
-Create a `.env` file and add necessary keys:
 ```env
-LLM_API_KEY=your_key_here
-
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama3-70b-8192
 ```
 
+Run the server:
 
-5. **Run the application:**
 ```bash
-python app.py  # (Adjust command based on your entry point)
-
+python app.py
 ```
 
+The backend runs at `http://localhost:5000`.
 
-## 👨‍💻 Developer
+### Frontend Setup
+
+```bash
+cd front-end
+npm install
+npm run dev
+```
+
+The frontend runs at `http://localhost:3000`.
+
+## Usage
+
+1. Open `http://localhost:3000` in your browser
+2. Fill in the job details — title, description, experience level, employment type, company name and location
+3. Upload your current resume as a PDF
+4. Optionally add extra information (certifications, courses, achievements not in your resume)
+5. Click **Modify Resume**
+6. Review the AI-refined output in the preview panel
+7. Download as PDF or DOCX
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/refine-resume` | Accepts resume text + job details, returns refined resume |
+| POST | `/api/download-pdf` | Accepts refined resume text, returns PDF file |
+| POST | `/api/download-docx` | Accepts refined resume text, returns DOCX file |
+
+## Developer
 
 **Dhruv Umang Joshi**
 
-* AI Backend Developer & Incoming MSc AI @ University of Pisa
-* [LinkedIn](Insert Link)
+- Incoming MSc AI @ University of Pisa
+- [GitHub](https://github.com/Dhruv18052003-web)

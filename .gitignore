@@ -50,3 +50,4 @@ yarn-error.log*
 .vercel/
 
 
+.kiro/settings/lsp.json
